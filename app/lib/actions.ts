@@ -1,5 +1,6 @@
 'use server';
 
+import { signIn } from '@/auth';
 import { sql } from '@vercel/postgres';
 import { AuthError } from 'next-auth';
 import { revalidatePath } from 'next/cache';
@@ -11,6 +12,7 @@ export async function authenticate(
   formData: FormData
 ) {
   try {
+    await signIn('credentials', formData);
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
